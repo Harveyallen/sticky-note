@@ -19,9 +19,9 @@ passport.deserializeUser(function(obj, done) {
 
 
 passport.use(new GitHubStrategy({
-    clientID: 'b7bfd7fcc56fdb76ad7f',
-    clientSecret: 'acbbfd5555ded60add3c1069a75d5fd32301b621',
-    callbackURL: "http://post.hunger-valley.com/auth/github/callback"
+    clientID: 'af742d4412aa9b21c153',
+    clientSecret: '10dc87637aed171911ab13d6766ca50ced0027cc',
+    callbackURL: "http://hsmaterials.xyz.com/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // User.findOrCreate({ githubId: profile.id }, function (err, user) {
@@ -42,13 +42,13 @@ router.get('/github',
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    req.session.user = {
-      id: req.user.id,
-      username: req.user.displayName || req.user.username,
-      avatar: req.user._json.avatar_url,
-      provider: req.user.provider
-    };
-    res.redirect('/');
+      req.session.user = {
+          id: req.user.id,
+          username: req.user.displayName || req.user.username,
+          avatar: req.user._json.avatar_url,
+          provider: req.user.provider
+      };
+      res.redirect('/');
   });
 
 

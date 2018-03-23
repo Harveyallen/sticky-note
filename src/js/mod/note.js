@@ -6,7 +6,7 @@ var Event = require('mod/event.js');
 function Note(opts){
   this.initOpts(opts);
   this.createNote();
-  this.setStyle();
+  // this.setStyle();
   this.bindEvent();
 }
 Note.prototype = {
@@ -34,7 +34,7 @@ Note.prototype = {
 
   createNote: function () {
     var tpl =  '<div class="note">'
-              + '<div class="note-head"><span class="username"></span><span class="delete">&times;</span></div>'
+              + '<div class="note-head"><span class="username">harveyallen</span><span class="delete">&times;</span></div>'
               + '<div class="note-ct" contenteditable="true"></div>'
               +'</div>';
     this.$note = $(tpl);
