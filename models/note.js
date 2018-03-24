@@ -26,12 +26,12 @@ var Note = sequelize.define('note', {
   text: {
     type: Sequelize.STRING
   },
-  username: {
-    type: Sequelize.STRING
-  }
+  uid: {
+        type: Sequelize.STRING
+    }
 });
 
-Note.sync()
+Note.sync();
 //Note.drop();
 //Note.sync({force: true})
 // // force: true will drop the table if it already exists
