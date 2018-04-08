@@ -6,15 +6,17 @@ var Note = require('../models/note')
 
 router.get('/notes', function(req, res, next) {
   var opts = {raw: true};
+
   if(req.session && req.session.user){
     opts.where = {uid:req.session.user.uid }
   }
 
   Note.findAll(opts).then(function(notes) {
-    res.send({status: 0, data: notes});
-  }).catch(function(){
-    res.send({ status: 1,errorMsg: '数据库异常'});
-  });
+      res.send({status: 0, data: notes});
+    }).catch(function(){
+      res.send({ status: 1,errorMsg: '数据库异常'});
+    });
+
 });
 
 /*新增note*/
@@ -22,13 +24,11 @@ router.post('/notes/add', function(req, res, next){
   if(!req.session || !req.session.user){
     return res.send({status: 1, errorMsg: '请先登录'})
   }
-  if (!req.body.note) {
-    return res.send({status: 2, errorMsg: '内容不能为空'});
-  }
   var note = req.body.note;
-  var uid = req.session.user.id;
-  Note.create({text: note, uid: uid}).then(function(){
-    res.send({status: 0})
+  var uid = req.session.user.uid;
+  var username=req.session.user.username;
+  Note.create({text: note, uid: uid, username: username}).then(function(notes){
+    res.send({status: 0,id: notes.dataValues.id})
   }).catch(function(){
     res.send({ status: 1,errorMsg: '数据库异常或者你没有权限'});
   })
@@ -60,8 +60,9 @@ router.post('/notes/delete', function(req, res, next){
 
   var noteId = req.body.id;
   var uid = req.session.user.uid;
+  console.log(noteId,uid);
 
-  Note.destroy({where:{id:noteId, uid: uid}}).then(function(deleteLen){
+  Note.destroy({where:{id: noteId, uid: uid}}).then(function(deleteLen){
     if(deleteLen === 0){
       return res.send({ status: 1, errorMsg: '你没有权限'});
     }

@@ -1,4 +1,3 @@
-var Toast = require('./toast.js').Toast;
 var Note = require('./note.js').Note;
 var Toast = require('./toast.js').Toast;
 var Event = require('mod/event.js');
@@ -14,7 +13,8 @@ var NoteManager = (function(){
               new Note({
                 id: article.id,
                 context: article.text,
-                username: article.username
+                username: article.username,
+                createdAt: article.createdAt
               });
           });
 
@@ -28,7 +28,7 @@ var NoteManager = (function(){
       });
 
 
-  }
+   }
 
   function add(){
     new Note();

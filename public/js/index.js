@@ -179,8 +179,7 @@ module.exports.Toast = Toast;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function($) {var Toast = __webpack_require__(2).Toast;
-var Note = __webpack_require__(11).Note;
+/* WEBPACK VAR INJECTION */(function($) {var Note = __webpack_require__(11).Note;
 var Toast = __webpack_require__(2).Toast;
 var Event = __webpack_require__(1);
 
@@ -195,7 +194,8 @@ var NoteManager = (function(){
               new Note({
                 id: article.id,
                 context: article.text,
-                username: article.username
+                username: article.username,
+                createdAt: article.createdAt
               });
           });
 
@@ -209,7 +209,7 @@ var NoteManager = (function(){
       });
 
 
-  }
+   }
 
   function add(){
     new Note();
@@ -369,6 +369,7 @@ function Note(opts){
   this.createNote();
   // this.setStyle();
   this.bindEvent();
+
 }
 Note.prototype = {
   colors: [
@@ -383,7 +384,9 @@ Note.prototype = {
   defaultOpts: {
     id: '',   //Note的 id
     $ct: $('#content').length>0?$('#content'):$('body'),  //默认存放 Note 的容器
-    context: 'input here'  //Note 的内容
+    context: 'input here',  //Note 的内容
+    username: '',
+    createdAt: ''
   },
 
   initOpts: function (opts) {
@@ -395,14 +398,20 @@ Note.prototype = {
 
   createNote: function () {
     var tpl =  '<div class="note">'
-              + '<div class="note-head"><span class="username">harveyallen</span><span class="delete">&times;</span></div>'
-              + '<div class="note-ct" contenteditable="true"></div>'
+              + '<div class="note-head"><span class="username"></span><span class="delete">&times;</span></div>'
+              + '<div class="note-ct" contenteditable="true"><span class="date"></span></div>'
               +'</div>';
     this.$note = $(tpl);
     this.$note.find('.note-ct').text(this.opts.context);
     this.$note.find('.username').text(this.opts.username);
-    this.opts.$ct.append(this.$note);
-    if(!this.id)  this.$note.css('bottom', '10px');  //新增放到右边
+    if(this.createdAt){
+        var dateArr=this.createdAt.split(' ');
+        var date=dateArr[0];
+        this.$note.find('.date').text(this.opts.date);
+    }
+    this.opts.$ct.append(this.$note)
+      Event.fire('waterfall')
+      // if(!this.id)  this.$note.css('bottom', '10px');  //新增放到右边
   },
 
   setStyle: function () {
@@ -430,7 +439,7 @@ Note.prototype = {
 
     $delete.on('click', function(){
       self.delete();
-    })
+    });
 
     //contenteditable没有 change 事件，所有这里做了模拟通过判断元素内容变动，执行 save
     $noteCt.on('focus', function() {
@@ -446,6 +455,10 @@ Note.prototype = {
           self.add($noteCt.html())
         }
       }
+      else
+        {self.setLayout();
+            Toast('请输入内容');
+        }
     });
 
     //设置笔记的移动
@@ -480,11 +493,12 @@ Note.prototype = {
   },
 
   add: function (msg){
-    console.log('addd...');
     var self = this;
     $.post('/api/notes/add', {note: msg})
       .done(function(ret){
         if(ret.status === 0){
+          self.id=ret.id;
+          console.log(1,self.id);
           Toast('add success');
         }else{
           self.$note.remove();
@@ -497,7 +511,8 @@ Note.prototype = {
 
   delete: function(){
     var self = this;
-    $.post('/api/notes/delete', {id: this.id})
+    if(self.id){
+    $.post('/api/notes/delete', {id: self.id})
       .done(function(ret){
         if(ret.status === 0){
           Toast('delete success');
@@ -507,7 +522,12 @@ Note.prototype = {
           Toast(ret.errorMsg);
         }
     });
-
+    }
+    else{
+        Toast('delete success');
+        self.$note.remove();
+        Event.fire('waterfall')
+    }
   }
 
 };

@@ -8,7 +8,7 @@ var GitHubStrategy = require('passport-github').Strategy;
 
 passport.serializeUser(function(user, done) {
   console.log('---serializeUser---')
-  console.log(user)
+
   done(null, user);
 });
 
@@ -19,9 +19,9 @@ passport.deserializeUser(function(obj, done) {
 
 
 passport.use(new GitHubStrategy({
-    clientID: 'af742d4412aa9b21c153',
-    clientSecret: '10dc87637aed171911ab13d6766ca50ced0027cc',
-    callbackURL: "http://hsmaterials.xyz.com/auth/github/callback"
+    clientID: 'dc1001f310b469326879',
+    clientSecret: '9c4d0ca7fd6f590f5710b5e8a815f2233066d74c',
+    callbackURL: "http://localhost:3789/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // User.findOrCreate({ githubId: profile.id }, function (err, user) {
@@ -43,7 +43,7 @@ router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
       req.session.user = {
-          id: req.user.id,
+          uid: req.user.id,
           username: req.user.displayName || req.user.username,
           avatar: req.user._json.avatar_url,
           provider: req.user.provider

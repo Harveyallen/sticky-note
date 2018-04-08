@@ -5,7 +5,7 @@
   "scripts": {
     "start": "PORT=5000 node ./bin/www",
     "webpack": "webpack --config ./src/webpack.config.js",
-    "watch": "onchange 'src/**/*.js' 'src/**/*.less' -- npm run webpack"
+    "watch": "onchange \"src/**/*.js\" \"src/**/*.less\" -- npm run webpack"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
