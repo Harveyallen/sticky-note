@@ -1,3 +1,28 @@
-Node的ORM(Object-Relational Mapping)框架Sequelize来操作数据库.
-# express-sticky-note
-A sticky note using node and express
+# 在线科研进度
+
+使用 NodeJS + Express 搭建一个在线科研进度管理系统，带数据库、登录等功能。
+# 技术栈
+Node.js+Express+sequelize+HTML5+CSS3
+
+# 插件介绍
+`object-path`: 用来访问和修改对象的深层属性
+
+# 在线预览
+[note-master](hsmaterials.xyz)
+
+
+
+使用方法：
+
+``` bash
+#clone to your computer
+git clone git@github.com:Harveyallen/note-master.git
+
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:5000
+node bin/www
+
+```
+
