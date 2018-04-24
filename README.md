@@ -8,7 +8,7 @@ Node.js+Express+sequelize+HTML5+CSS3
 `object-path`: 用来访问和修改对象的深层属性
 
 # 在线预览
-[note-master](hsmaterials.xyz)
+[hsmaterials.xyz](hsmaterials.xyz)
 
 
 
