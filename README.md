@@ -21,8 +21,10 @@ git clone git@github.com:Harveyallen/note-master.git
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:5000
+# serve with hot reload at localhost:3789
 node bin/www
 
+# 打开浏览器窗口，输入：
+localhost:3789
 ```
 
